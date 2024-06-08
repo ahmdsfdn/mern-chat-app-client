@@ -10,11 +10,17 @@ export default function RegisterAndLoginForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const url = isLoginOrRegister === 'register' ? 'register' : 'login';
+    const url = isLoginOrRegister === "register" ? "register" : "login";
 
-    const { data } = await axios.post(url, { username, password });
-    setLoggedInUsername(username);
-    setId(data.id);
+    await axios
+      .post(url, { username, password })
+      .then(({ data }) => {
+        setLoggedInUsername(username);
+        setId(data.id);
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+      });
   }
 
   return (
